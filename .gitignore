@@ -196,4 +196,5 @@ pip-selfcheck.json
 
 # folders to ignore
 zipped_files/
-data/
+data/HAM10000_images/
+variables/

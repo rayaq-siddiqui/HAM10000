@@ -85,6 +85,7 @@ Pygments = "==2.11.2"
 Werkzeug = "==2.0.3"
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
 python_version = "3.8"
