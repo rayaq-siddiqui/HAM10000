@@ -197,4 +197,8 @@ pip-selfcheck.json
 # folders to ignore
 zipped_files/
 data/HAM10000_images/
-variables/
+model/
+76%_acc_model/model.h5
+83%_acc_model/ham10000_inceptionV3_best.h5
+87%_acc_model/ham10000_inceptionV3_best.h5
+
