@@ -8,21 +8,19 @@ def seq_model(class_weight):
     inp =  Input((256, 256, 3))
     x = BatchNormalization()(inp)
     
-    x = Conv2D(64, kernel_size=5, activation='relu', kernel_initializer='glorot_normal')(x)
-    x = Conv2D(64, kernel_size=5, activation='relu', kernel_initializer='glorot_normal')(x)
-    x = MaxPooling2D(pool_size=(2,2))(x)
+    x = Conv2D(64, kernel_size=5, activation='relu', kernel_initializer='glorot_normal', padding='same')(x)
+    x = Conv2D(64, kernel_size=5, activation='relu', kernel_initializer='glorot_normal', padding='same')(x)
 
-    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal')(x)
-    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal')(x)
+    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal', padding='same')(x)
+    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal', padding='same')(x)
     x = MaxPooling2D(pool_size=(2,2))(x)
     x = Dropout(0.2)(x)
 
-    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal')(x)
-    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal')(x)
-    x = MaxPooling2D(pool_size=(2,2))(x)
+    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal', padding='same')(x)
+    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal', padding='same')(x)
     
-    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal')(x)
-    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal')(x)
+    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal', padding='same')(x)
+    x = Conv2D(64, kernel_size=3, activation='relu', kernel_initializer='glorot_normal', padding='same')(x)
     x = MaxPooling2D(pool_size=(2,2))(x)
     x = Dropout(0.3)(x)
 

@@ -3,7 +3,7 @@ from sklearn.utils import shuffle
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
-def load_data():
+def load_data(tar_size=(256,256)):
     def numerizing(x):
         dict = {
             'nv': 0,
@@ -49,11 +49,19 @@ def load_data():
     df_shuffled = shuffle(df)
 
     datagen = ImageDataGenerator(
-        rescale=1.0/255.0,
+        rescale = 1./255,
+        rotation_range = 10,
+        width_shift_range = 0.2,
+        height_shift_range = 0.2,
+        shear_range = 0.2,
         horizontal_flip = True,
         vertical_flip = True,
-        rotation_range = 20,
+        fill_mode = 'nearest',
         validation_split=0.2
+    )
+
+    org_im_datagen = ImageDataGenerator(
+        rescale=1.0/255.0,
     )
 
     train_df = datagen.flow_from_dataframe(
@@ -63,7 +71,7 @@ def load_data():
         y_col = 'dx_num',
         subset='training',
         class_mode='raw',
-        target_size=(256, 256),
+        target_size=tar_size,
     )
     val_df = datagen.flow_from_dataframe(
         df_shuffled,
@@ -72,8 +80,17 @@ def load_data():
         y_col = 'dx_num',
         subset='validation',
         class_mode='raw',
-        target_size=(256, 256),
+        target_size=tar_size,
     )
 
-    return train_df, val_df, cw
+    org_df = org_im_datagen.flow_from_dataframe(
+        df_shuffled,
+        directory = '',
+        x_col = 'image_id',
+        y_col = 'dx_num',
+        class_mode='raw',
+        target_size=tar_size,
+    )
+
+    return train_df, val_df, org_df, cw
     

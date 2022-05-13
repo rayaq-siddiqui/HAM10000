@@ -1,18 +1,18 @@
 from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
-from tensorflow.keras.applications.inception_v3 import InceptionV3
+from tensorflow.keras.applications.efficientnet import EfficientNetB7 
 from tensorflow.keras.models import Model
 from .ClassWeightMult import ClassWeightMult
 
 
-def inception_v3(class_weight, freeze_layers=250, input_shape=(256,256,3)):
-    model = InceptionV3(weights='imagenet', include_top=False, input_shape=input_shape)
+def efficient_net_b7(class_weight, freeze_layers=750, input_shape=(256,256,3)):
+    model = EfficientNetB7(weights='imagenet', include_top=False, input_shape=input_shape)
     
     x = model.output
     x = GlobalAveragePooling2D()(x)
-    x = Dense(512, activation='relu')(x)
-    x = Dropout(0.5)(x)
-    x = Dense(512, activation='relu')(x)
-    x = Dropout(0.5)(x)
+    x = Dense(512, activation='tanh')(x)
+    x = Dropout(0.2)(x)
+    x = Dense(512, activation='tanh')(x)
+    x = Dropout(0.2)(x)
     x = Dense(7, activation='softmax')(x)
     out = ClassWeightMult(class_weight)(x)
 

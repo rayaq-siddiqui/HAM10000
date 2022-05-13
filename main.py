@@ -1,5 +1,9 @@
+# python3 main.py --model inception_v3 --epochs 3 --verbose 1
+# python3 main.py --model efficient_net_v2s --epochs 3 --verbose 1
+# python3 main.py --model efficient_net_b7 --epochs 3 --verbose 1
+
+
 import argparse
-from tabnanny import verbose
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import SparseCategoricalCrossentropy
 from tensorflow.keras.callbacks import ReduceLROnPlateau, ModelCheckpoint
@@ -11,7 +15,9 @@ from networks import (
     simple_seq_model,
     inception_v3,
     resnet50,
-    vgg16
+    vgg16,
+    efficient_net_v2s,
+    efficient_net_b7
 )
 
 # print validation statement
@@ -44,18 +50,31 @@ if __name__ == '__main__':
     epochs_ = args.epochs
     verbose_ = args.verbose
 
-    train_df, val_df, class_weight = load_data()
+    if model_ == 'efficient_net_v2s' or model_ == 'efficient_net_b7':
+        im_size = (32,32)
+    elif model_ == 'inception_v3':
+        im_size = (75,75)
+    else:
+        im_size = (256,256)
+
+    train_df, val_df, org_df, class_weight = load_data(tar_size=im_size)
 
     if model_ == 'seq_model':
         model = seq_model.seq_model(class_weight)
     elif model_ == 'simple_seq_model':
         model = simple_seq_model.simple_seq_model(class_weight)
     elif model_ == 'inception_v3':
-        model = inception_v3.inception_v3(class_weight)
+        model = inception_v3.inception_v3(class_weight, input_shape=(im_size+(3,)))
     elif model_ == 'resnet50':
         model = resnet50.resnet50(class_weight)
     elif model_ == 'vgg16':
         model = vgg16.vgg16(class_weight)
+    elif model_ == 'efficient_net_v2s':
+        model = efficient_net_v2s.efficient_net_v2s(class_weight, input_shape=(im_size+(3,)))
+    elif model_ == 'efficient_net_b7':
+        model = efficient_net_b7.efficient_net_b7(class_weight, input_shape=(im_size+(3,)))
+
+    print('layers', len(model.layers))
 
     # compiling the model
     optimizer = Adam(learning_rate=0.001)
